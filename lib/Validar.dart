@@ -1,5 +1,8 @@
 import 'dart:io';
 
+import 'Pessoa.dart';
+import 'main.dart';
+
 // Função que recebe um input do usuário e retorna a variável caso seja um inteiro
 int validarEntradaMenu() {
   String input;
@@ -116,16 +119,31 @@ String validarSemestre(){
       print("Formato Inválido");
       erro = true;
     }
+    else{
+      String ano = input.substring(0,4);
+      String ponto = input[4];
+      String semestre = input.substring(5);
+      if(temCaracteres(ano) || ponto != "." || (semestre != "1" && semestre != "2")){
+        print("Formato Invalido");
+        erro = true;
+      }
+    }
   }while(erro);
   return input;
 }
 
 String validarProfessor(){
   String input;
+  bool erro = false;
   do{
+    erro = false;
     print("Digite o CPF do professor da disciplina: ");
-    input = stdin.readLineSync()!;
-  }while(false); // false temporário, ainda não há parâmetro de validação
+    input = validarCPF();
+    if(pessoaExiste(professores, input) == false){
+      print("Professor não encontrado");
+      erro = true;
+    }
+  }while(erro);
   return input;
 }
 
