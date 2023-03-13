@@ -3,20 +3,20 @@ import 'Validar.dart';
 import 'main.dart';
 import 'Pessoa.dart';
 
-void menuAlunos(){
+void menuProfessores(){
   int? opUsuario;
   Menu menu = new Menu();
-  String tipo = "Aluno";
+  String tipo = "Professor";
   do{
-    menu.menuTela("aluno");
+    menu.menuTela("professor");
     opUsuario = validarEntradaMenu();
     switch(opUsuario){
       case 1:
-        Pessoa aluno = new Pessoa();
-        aluno.cadastrar();
-        alunos.add(aluno); break;
-      case 2: listarPessoas(tipo, alunos); break;
-      case 3: removerPessoa(tipo, alunos); break;
+        Pessoa professor = new Pessoa();
+        professor.cadastrar();
+        professores.add(professor); break;
+      case 2: listarPessoas(tipo, professores); break;
+      case 3: removerPessoa(tipo, professores); break;
       case 0: print("Voltando"); break;
       default: print("Opcao Invalida"); break;
     }

@@ -1,9 +1,14 @@
 import 'Aluno.dart';
+import 'Disciplina.dart';
+import 'Professor.dart';
+import 'Pessoa.dart';
 import 'Menu.dart';
 import 'Validar.dart';
 
 // Declarando as listas de alunos, professores e disciplinas
-List<Aluno> alunos = [];
+List<Pessoa> alunos = [];
+List<Pessoa> professores = [];
+List<Disciplina> disciplinas = [];
 
 void main(){
   Menu menu = new Menu();
@@ -13,8 +18,8 @@ void main(){
     opUsuario = validarEntradaMenu();
     switch(opUsuario){
       case 1: menuAlunos(); break;
-      case 2: break;
-      case 3: break;
+      case 2: menuProfessores(); break;
+      case 3: menuDisciplina(); break;
       case 0: print("Fechando"); break;
       default: print("Opção Invalida");
     }
