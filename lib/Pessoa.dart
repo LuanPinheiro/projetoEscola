@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:core';
 
 import 'Validar.dart';
 import 'main.dart';
@@ -18,10 +19,10 @@ class Pessoa {
   }
 
   PessoasParams( // Construtor com os dados finais sendo passados por parâmetro
-      String nome,
-      int matricula,
-      String cpf,
-      String sexo,){
+      String? nome,
+      int? matricula,
+      String? cpf,
+      String? sexo,){
     this.nome = nome;
     this.matricula = matricula;
     this.cpf = cpf;
@@ -42,6 +43,10 @@ class Pessoa {
         "Matricula: ${this.matricula}\n"
         "CPF: ${this.cpf}\n"
         "Sexo: ${this.sexo}\n");
+  }
+
+  void atualizarDados(){
+    PessoasParams(validarNome(), this.matricula!, validarCPF(), validarSexo());
   }
 }
 
@@ -100,6 +105,49 @@ void removePessoaDisciplinas(String tipo, Pessoa pessoaRemover){
       if(disciplinas[i].cpfProfessor == pessoaRemover.cpf){
         disciplinas[i].cpfProfessor = "Sem Professor";
       }
+    }
+  }
+}
+
+void atualizarPessoa(String tipo, List<Pessoa> pessoas){
+  if(pessoas.length == 0){
+    print("Não existem ${tipo} cadastrados");
+  }
+  else{
+    print("Digite o CPF do ${tipo} que quer alterar:");
+    String cpfAlterar = stdin.readLineSync()!;
+    Pessoa pessoaAlterar = pessoas.singleWhere(
+          (pessoaBuscada) => pessoaBuscada.cpf == cpfAlterar,
+      orElse: () => Pessoa(),
+    );
+    if(pessoaAlterar.cpf == null){
+      print("${tipo} não encontrado");
+    }
+    else{
+      Pessoa pessoaAntigaAlterar = new Pessoa();
+      pessoaAntigaAlterar.cpf = pessoaAlterar.cpf;
+      // fazer função de copiar
+      pessoaAlterar.atualizarDados();
+      if(tipo == "aluno"){
+        for(int i = 0; i < disciplinas.length; i++){
+          for(int indexAlunos = 0;
+          indexAlunos < disciplinas[i].alunosMatriculados.length;
+          indexAlunos++){
+            if(disciplinas[i].alunosMatriculados[indexAlunos].cpf == pessoaAntigaAlterar.cpf){
+              disciplinas[i].alunosMatriculados[indexAlunos] = pessoaAlterar;
+              break;
+            }
+          }
+        }
+      }
+      else{
+        for(int i = 0; i < disciplinas.length; i++){
+          if(disciplinas[i].cpfProfessor == pessoaAntigaAlterar.cpf){
+            disciplinas[i].cpfProfessor = pessoaAlterar.cpf;
+          }
+        }
+      }
+      // Fazer uma função única de manter dados antigos individuais caso queira
     }
   }
 }

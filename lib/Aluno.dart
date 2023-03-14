@@ -17,6 +17,7 @@ void menuAlunos(){
         alunos.add(aluno); break;
       case 2: listarPessoas(tipo, alunos); break;
       case 3: removerPessoa(tipo, alunos); break;
+      case 4: atualizarPessoa(tipo, alunos); break;
       case 0: print("Voltando"); break;
       default: print("Opcao Invalida"); break;
     }

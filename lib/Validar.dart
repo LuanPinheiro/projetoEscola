@@ -53,11 +53,11 @@ String validarCPF(){
       print("CPF com apenas números");
       erro = true;
     }
-    if(input.length != 11){
+    else if(input.length != 11){
       print("CPF deve ter 11 números");
       erro = true;
     }
-    if(digitosVerificadores(input) == false){
+    else if(digitosVerificadores(input) == false){
       print("CPF Inválido");
       erro = true;
     }

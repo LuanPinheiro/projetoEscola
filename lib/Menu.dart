@@ -14,14 +14,16 @@ class Menu {
       print("1. Cadastro de Aluno\n"
             "2. Listar Alunos\n"
             "3. Remover Aluno\n"
+            "4. Atualizar Aluno\n"
             "0. Voltar\n");
     }
     else if(tipo == "professor"){
       print("\n\nMenu de Professores");
       print("1. Cadastro de Professor\n"
-          "2. Listar Professores\n"
-          "3. Remover Professor\n"
-          "0. Voltar\n");
+            "2. Listar Professores\n"
+            "3. Remover Professor\n"
+            "4. Atualizar Professor\n"
+            "0. Voltar\n");
     }
     else if(tipo == "disciplina"){
       print("\n\nMenu de Disciplinas");
