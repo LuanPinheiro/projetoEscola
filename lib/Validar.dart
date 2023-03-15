@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'Pessoa.dart';
 import 'main.dart';
+import 'Aluno.dart';
+import 'Professor.dart';
 
 // Função que recebe um input do usuário e retorna a variável caso seja um inteiro
 int validarEntradaMenu() {
@@ -21,6 +23,21 @@ int validarEntradaMenu() {
   return 0; // Não estava compilando sem essa linha, mas não vai ser executada nunca
 }
 
+int validarMatricula(){
+  String input;
+  bool erro = false;
+
+  do{
+    erro = false;
+    print("Digite a matrícula: ");
+    input = stdin.readLineSync()!;
+    if(temCaracteres(input)){
+      print("Matricula deve conter apenas números");
+      erro = true;
+    }
+  }while(erro);
+  return int.parse(input);
+}
 // Retorna um nome validado
 String validarNome(){
   String input;
@@ -59,6 +76,10 @@ String validarCPF(){
     }
     else if(digitosVerificadores(input) == false){
       print("CPF Inválido");
+      erro = true;
+    }
+    else if(cpfCadastrado(input)){
+      print("CPF já existente");
       erro = true;
     }
   }while(erro);
@@ -132,13 +153,13 @@ String validarSemestre(){
   return input;
 }
 
-String validarProfessor(){
-  String input;
+int validarProfessor(){
+  int input;
   bool erro = false;
   do{
     erro = false;
-    print("Digite o CPF do professor da disciplina: ");
-    input = validarCPF();
+    print("Digite a matricula do professor da disciplina: ");
+    input = validarMatricula();
     if(pessoaExiste(professores, input) == false){
       print("Professor não encontrado");
       erro = true;
@@ -191,4 +212,27 @@ bool digitosVerificadores(String cpf){
 
   // Verifica se os dígitos verificadores calculados são iguais aos do CPF original
   return (int.parse(cpf[9]) == primeiroDV && int.parse(cpf[10]) == segundoDV);
+}
+
+// Retorna true caso encontre um CPF dado no parâmetro em alunos ou professores
+bool cpfCadastrado(String cpfBuscar){
+  Pessoa pessoaBuscar = alunos.singleWhere(
+        (pessoaBuscada) => pessoaBuscada.cpf == cpfBuscar,
+    orElse: () => Aluno(),
+  );
+  if(pessoaBuscar.cpf == null){
+    pessoaBuscar = professores.singleWhere(
+          (pessoaBuscada) => pessoaBuscada.cpf == cpfBuscar,
+      orElse: () => Professor(),
+    );
+    if(pessoaBuscar.cpf == null){
+      return false;
+    }
+    else{
+      return true;
+    }
+  }
+  else{
+    return true;
+  }
 }

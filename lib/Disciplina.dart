@@ -1,22 +1,24 @@
 import 'Pessoa.dart';
+import 'Aluno.dart';
 import 'Menu.dart';
 import 'Validar.dart';
 import 'main.dart';
+
 import 'dart:io';
 
 class Disciplina{
   String? nome;
   String? codigo;
   String? semestre;
-  String? cpfProfessor;
-  List<Pessoa> alunosMatriculados = [];
+  int? matriculaProfessor;
+  List<int> alunosMatriculados = [];
 
   // Construtor da disciplina inicializando null
   Disciplina(){
     this.nome = null;
     this.codigo = null;
     this.semestre = null;
-    this.cpfProfessor = null;
+    this.matriculaProfessor = null;
   }
 
   // Construtor com os dados finais sendo passados por parâmetro
@@ -24,27 +26,28 @@ class Disciplina{
       String nome,
       String codigo,
       String semestre,
-      String cpfProfessor,){
+      int matriculaProfessor,){
     this.nome = nome;
     this.codigo = codigo;
     this.semestre = semestre;
-    this.cpfProfessor = cpfProfessor;
+    this.matriculaProfessor = matriculaProfessor;
   }
 
   cadastrarDisciplina(){
     if(professores.length == 0){
-      DisciplinaParams(validarNome(), validarCodigo(), validarSemestre(), "Sem Professor");
+      DisciplinaParams(validarNome(), validarCodigo(), validarSemestre(), 0);
     }
     else{
       DisciplinaParams(validarNome(), validarCodigo(), validarSemestre(), validarProfessor());
     }
+    print("Disciplina Cadastrada com Sucesso");
   }
 
   printDados(){
     print("Nome: ${this.nome}\n"
         "Código: ${this.codigo}\n"
         "Semestre: ${this.semestre}\n"
-        "Professor: ${this.cpfProfessor}\n"
+        "Professor: ${this.matriculaProfessor}\n"
         "Alunos Cadastrados: ${this.alunosMatriculados.length}\n"
     );
   }
@@ -55,41 +58,42 @@ class Disciplina{
    }
    else{
      for(int i = 0; i < this.alunosMatriculados.length; i++){
-       print("Aluno #${i+1}");
-       this.alunosMatriculados[i].printDados();
+       print("Alunos Cadastrados:");
+       print(this.alunosMatriculados[i]);
      }
    }
   }
 
   addAluno(){
-    print("Digite o CPF do aluno que quer inserir na disciplina");
-    String cpfAlunoInserir = validarCPF();
-    Pessoa alunoInserir = alunos.singleWhere(
-          (pessoaBuscada) => pessoaBuscada.cpf == cpfAlunoInserir,
-      orElse: () => Pessoa(),
+    print("Digite a matrícula do aluno que quer inserir na disciplina");
+    int matriculaAlunoInserir = validarMatricula();
+    Aluno alunoInserir = alunos.singleWhere(
+          (pessoaBuscada) => pessoaBuscada.matricula == matriculaAlunoInserir,
+      orElse: () => Aluno(),
     );
-    if(alunoInserir.cpf == null){
+    if(alunoInserir.matricula == null){
       print("Aluno não encontrado");
     }
     else{
       print("Aluno adicionado a disciplina ${this.codigo}");
-      alunosMatriculados.add(alunoInserir);
+      alunosMatriculados.add(matriculaAlunoInserir);
     }
   }
 
   removerAluno(){
-    print("Digite o CPF do aluno que quer remover da disciplina");
-    String cpfAlunoRemover = validarCPF();
-    Pessoa alunoRemover = this.alunosMatriculados.singleWhere(
-          (pessoaBuscada) => pessoaBuscada.cpf == cpfAlunoRemover,
-      orElse: () => Pessoa(),
+    print("Digite a Matricula do aluno que quer remover da disciplina");
+    int matriculaAlunoRemover = validarMatricula();
+    int alunoRemover = this.alunosMatriculados.singleWhere(
+          (pessoaBuscada) => pessoaBuscada == matriculaAlunoRemover,
+      orElse: () => 0,
     );
-    if(alunoRemover.cpf == null){
-      print("Aluno não encontrado");
+
+    if(pessoaExiste(alunos, alunoRemover)){
+      print("Aluno removido da disciplina ${this.codigo}");
+      alunosMatriculados.remove(matriculaAlunoRemover);
     }
     else{
-      print("Aluno removido da disciplina ${this.codigo}");
-      alunosMatriculados.remove(alunoRemover);
+      print("Matrícula de Aluno não encontrada na escola");
     }
   }
 }
@@ -97,7 +101,6 @@ class Disciplina{
 void menuDisciplina(){
   int? opUsuario;
   Menu menu = new Menu();
-  String tipo = "Disciplina";
   do{
     menu.menuTela("disciplina");
     opUsuario = validarEntradaMenu();
@@ -239,13 +242,13 @@ void mudarProfessorDisciplina(){
       print("Disciplina não foi encontrada");
     }
     else{
-      print("Digite o CPF do novo professor");
-      String novoProfessor = validarCPF();
+      print("Digite a matrícula do novo professor");
+      int novoProfessor = validarMatricula();
       if(pessoaExiste(professores, novoProfessor)){
-        disciplinaMudar.cpfProfessor = novoProfessor;
+        disciplinaMudar.matriculaProfessor = novoProfessor;
       }
       else{
-        print("CPF não encontrado");
+        print("Matrícula não encontrado");
       }
     }
   }

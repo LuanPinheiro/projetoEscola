@@ -3,6 +3,19 @@ import 'Validar.dart';
 import 'main.dart';
 import 'Pessoa.dart';
 
+class Professor extends Pessoa{
+  static int matriculaNova = 10000;
+
+  cadastrar(){
+    PessoasParams(validarNome(), addMatricula(), validarCPF(), validarSexo());
+    print("Professor Cadastrado com Sucesso");
+  }
+
+  addMatricula(){
+    matriculaNova++;
+    return matriculaNova;
+  }
+}
 void menuProfessores(){
   int? opUsuario;
   Menu menu = new Menu();
@@ -12,7 +25,7 @@ void menuProfessores(){
     opUsuario = validarEntradaMenu();
     switch(opUsuario){
       case 1:
-        Pessoa professor = new Pessoa();
+        Professor professor = new Professor();
         professor.cadastrar();
         professores.add(professor); break;
       case 2: listarPessoas(tipo, professores); break;

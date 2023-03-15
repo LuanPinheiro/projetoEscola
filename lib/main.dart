@@ -1,7 +1,6 @@
 import 'Aluno.dart';
 import 'Disciplina.dart';
 import 'Professor.dart';
-import 'Pessoa.dart';
 import 'Menu.dart';
 import 'Validar.dart';
 
