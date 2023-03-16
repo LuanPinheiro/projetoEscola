@@ -66,7 +66,7 @@ void removerPessoa(String tipo, List<dynamic> pessoas){
     print("Digite a matrícula de quem quer remover:");
     int matriculaRemover = validarMatricula();
     if(tipo == "Aluno"){
-      Aluno alunoRemover = alunos.singleWhere(
+      Pessoa alunoRemover = alunos.singleWhere(
             (pessoaBuscada) => pessoaBuscada.matricula == matriculaRemover,
         orElse: () => Aluno(),
       );
@@ -81,7 +81,7 @@ void removerPessoa(String tipo, List<dynamic> pessoas){
       }
     }
     else{
-      Professor professorRemover = professores.singleWhere(
+      Pessoa professorRemover = professores.singleWhere(
             (pessoaBuscada) => pessoaBuscada.matricula == matriculaRemover,
         orElse: () => Professor(),
       );
@@ -137,10 +137,16 @@ void atualizarPessoa(String tipo, List<dynamic> pessoas){
       print("${tipo} não encontrado");
     }
     else{
-      Pessoa pessoaAntigaAlterar = new Pessoa();
+      Pessoa pessoaAntigaAlterar;
+      if(tipo == "Aluno"){
+        pessoaAntigaAlterar = new Aluno();
+      }
+      else{
+        pessoaAntigaAlterar = new Professor();
+      }
       pessoaAntigaAlterar.matricula = pessoaAlterar.matricula;
-      // fazer função de copiar
       pessoaAlterar.atualizarDados();
+
       if(tipo == "Aluno"){
         for(int i = 0; i < disciplinas.length; i++){
           for(int indexAlunos = 0;
@@ -165,7 +171,7 @@ void atualizarPessoa(String tipo, List<dynamic> pessoas){
   }
 }
 
-bool pessoaExiste(List<Pessoa> pessoas, int matriculaBuscar){
+bool pessoaExiste(List<dynamic> pessoas, int matriculaBuscar){
   for(int i = 0; i < pessoas.length; i++){
     if(pessoas[i].matricula == matriculaBuscar){
       return true;

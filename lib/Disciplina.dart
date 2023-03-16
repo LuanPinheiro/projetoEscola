@@ -67,7 +67,7 @@ class Disciplina{
   addAluno(){
     print("Digite a matrícula do aluno que quer inserir na disciplina");
     int matriculaAlunoInserir = validarMatricula();
-    Aluno alunoInserir = alunos.singleWhere(
+    Pessoa alunoInserir = alunos.singleWhere(
           (pessoaBuscada) => pessoaBuscada.matricula == matriculaAlunoInserir,
       orElse: () => Aluno(),
     );
@@ -252,4 +252,13 @@ void mudarProfessorDisciplina(){
       }
     }
   }
+}
+
+bool disciplinaExiste(int codigoBuscar){
+  for(int i = 0; i < disciplinas.length; i++){
+    if(disciplinas[i].codigo == codigoBuscar){
+      return true;
+    }
+  }
+  return false;
 }

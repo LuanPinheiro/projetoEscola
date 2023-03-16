@@ -1,3 +1,4 @@
+import 'Pessoa.dart';
 import 'Aluno.dart';
 import 'Disciplina.dart';
 import 'Professor.dart';
